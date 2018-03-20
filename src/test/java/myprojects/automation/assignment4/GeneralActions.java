@@ -1,9 +1,10 @@
 package myprojects.automation.assignment4;
 
 
-import myprojects.automation.assignment4.model.LoginPage;
-import myprojects.automation.assignment4.model.ProductData;
+import myprojects.automation.assignment4.model.*;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,10 +15,13 @@ import org.testng.annotations.BeforeMethod;
 public class GeneralActions {
     private WebDriver driver;
     private WebDriverWait wait;
+    private Actions actions;
+    private ProductData productData;
 
     public GeneralActions(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 30);
+        actions = new Actions(driver);
     }
 
     /**
@@ -34,15 +38,43 @@ public class GeneralActions {
         loginPage.fillInEmail();
         loginPage.fillInPassword();
         loginPage.clickOnLoginButton();
-
-
     }
 
     @BeforeMethod
     @AfterMethod
     public void createProduct(ProductData newProduct) {
         // TODO implement product creation scenario
-        throw new UnsupportedOperationException();
+        this.productData = newProduct;
+        DashboardPage dashboardPage = new DashboardPage(driver, wait);
+        dashboardPage.selectProductsMenuItem();
+        waitForContentLoad();
+
+        ProductsPage productsPage = new ProductsPage(driver, wait);
+        productsPage.clickOnNewProductButton();
+
+        NewProductPage newProductPage = new NewProductPage(driver, wait, actions, newProduct);
+        newProductPage.fillInProductNameField();
+        newProductPage.selectQuantityTab();
+        newProductPage.fillInProductQuantityField();
+        newProductPage.selectPriceTab();
+        newProductPage.fillInProductPriceField();
+        newProductPage.activateProduct();
+        newProductPage.saveProduct();
+    }
+
+    @BeforeMethod
+    @AfterMethod
+    public void checkProductPresence() {
+        MainPage mainPage = new MainPage(driver, wait);
+        mainPage.open();
+        mainPage.clickOnAllProductsButton();
+
+        AllProductsPage allProductsPage = new AllProductsPage(driver, wait, productData);
+        allProductsPage.clickOnCreatedProduct();
+
+        CreatedProductPage createdProductPage = new CreatedProductPage(driver, wait, productData);
+        createdProductPage.checkIfDisplayedProductIsEqualToCreated();
+
     }
 
     /**
@@ -52,7 +84,7 @@ public class GeneralActions {
     @AfterMethod
     public void waitForContentLoad() {
         // TODO implement generic method to wait until page content is loaded
-
+        wait.until(driver1 -> (JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
         // wait.until(...);
         // ...
     }

@@ -76,7 +76,7 @@ public abstract class BaseTest {
         driver = new EventFiringWebDriver(getDriver(browser));
         driver.register(new EventHandler());
 
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         driver.manage().window().maximize();
 

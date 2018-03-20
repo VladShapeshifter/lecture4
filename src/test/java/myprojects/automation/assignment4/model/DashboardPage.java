@@ -9,14 +9,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardPage {
     private WebDriver driver;
+    private WebDriverWait wait;
 
     private By userIcon = By.id("employee_infos");
     private By exitButton = By.id("header_logout");
     private By catalogTab = By.id("subtab-AdminCatalog");
+    private By productsMenuItem = By.id("subtab-AdminProducts");
     private By categoriesMenuItem = By.id("subtab-AdminCategories");
 
-    public DashboardPage(WebDriver driver) {
+    public DashboardPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
     }
 
     public void selectCategoriesMenuItem() {
@@ -29,6 +32,16 @@ public class DashboardPage {
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(categoriesMenuItem));
         catalogTabElement.findElement(categoriesMenuItem).click();
+    }
+
+    public void selectProductsMenuItem() {
+        wait.until(ExpectedConditions.elementToBeClickable(catalogTab));
+        WebElement catalogTabElement = driver.findElement(catalogTab);
+        WebElement productsMenuItemElement = driver.findElement(productsMenuItem);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(catalogTabElement).moveToElement(productsMenuItemElement).build().perform();
+
+        productsMenuItemElement.click();
     }
 
     public void clickOnUserIcon() {
