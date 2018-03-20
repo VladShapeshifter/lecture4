@@ -1,7 +1,6 @@
 package myprojects.automation.assignment4.model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,10 +17,7 @@ public class MainPage {
     }
 
     public void open() {
-        /*String selectLinkOpeninNewTab = Keys.chord(Keys.COMMAND,Keys.RETURN);
-        driver.findElement(By.cssSelector("body")).sendKeys(selectLinkOpeninNewTab);*/
         driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
-//        driver.get("http://prestashop-automation.qatestlab.com.ua/ru/");
     }
 
     public void clickOnAllProductsButton() {
