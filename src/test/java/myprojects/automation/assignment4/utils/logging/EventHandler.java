@@ -109,6 +109,16 @@ public class EventHandler implements WebDriverEventListener {
     }
 
     @Override
+    public void beforeSwitchToWindow(String s, WebDriver webDriver) {
+
+    }
+
+    @Override
+    public void afterSwitchToWindow(String s, WebDriver webDriver) {
+
+    }
+
+    @Override
     public void onException(Throwable throwable, WebDriver driver) {
         // already logged by reporter
     }

@@ -20,7 +20,8 @@ public class NewProductPage {
     private By productPriceField = By.id("form_step2_price");
     private By activateProductSwitch = By.className("switch-input");
     private By popupSettingsCloseButton = By.className("growl-close");
-    private By saveProductButton = By.cssSelector(".btn.btn-primary.js-btn-save");
+    private By saveProductButtonSmallDimention = By.cssSelector(".btn.btn-primary.js-btn-save");
+    private By saveProductButtonBigDimention = By.id("submit");
 
     public NewProductPage(WebDriver driver, WebDriverWait wait, Actions actions, ProductData productData) {
         this.driver = driver;
@@ -67,8 +68,14 @@ public class NewProductPage {
     }
 
     public void saveProduct() {
-        wait.until(ExpectedConditions.elementToBeClickable(saveProductButton));
-        driver.findElement(saveProductButton).click();
+        if (driver.manage().window().getSize().width < 1451) {
+            wait.until(ExpectedConditions.elementToBeClickable(saveProductButtonSmallDimention));
+            driver.findElement(saveProductButtonSmallDimention).click();
+        } else {
+            wait.until(ExpectedConditions.elementToBeClickable(saveProductButtonBigDimention));
+            driver.findElement(saveProductButtonBigDimention).click();
+        }
+        
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(popupSettingsCloseButton));
         driver.findElement(popupSettingsCloseButton).click();

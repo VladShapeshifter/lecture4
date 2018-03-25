@@ -21,29 +21,21 @@ public class AllProductsPage {
         this.productData = productData;
     }
 
-    public void clickOnCreatedProduct() {
+    private boolean isElementPresent() {
         try {
             assertProductDisplayCheck();
-            openCreatedProduct();
-        } catch (NoSuchElementException err0) {
+            return true;
+        } catch (NoSuchElementException err) {
+            return false;
+        }
+    }
+
+    public void clickOnCreatedProduct() {
+        while(!isElementPresent()) {
             wait.until(ExpectedConditions.elementToBeClickable(nextPageButton));
             driver.findElement(nextPageButton).click();
-            try {
-                assertProductDisplayCheck();
-                openCreatedProduct();
-            } catch (NoSuchElementException err1) {
-                wait.until(ExpectedConditions.elementToBeClickable(nextPageButton));
-                driver.findElement(nextPageButton).click();
-                try {
-                    assertProductDisplayCheck();
-                    openCreatedProduct();
-                } catch (NoSuchElementException err2) {
-                    wait.until(ExpectedConditions.elementToBeClickable(nextPageButton));
-                    driver.findElement(nextPageButton).click();
-                }
-            }
         }
-
+        openCreatedProduct();
     }
 
     private void assertProductDisplayCheck() {
@@ -52,8 +44,8 @@ public class AllProductsPage {
     }
 
     private void openCreatedProduct() {
-        WebElement element1 = driver.findElement(By.xpath("//*[contains(text(),'" + productData.getName() + "')]"));
-        wait.until(ExpectedConditions.elementToBeClickable(element1));
-        element1.click();
+        WebElement createdProductCard = driver.findElement(By.xpath("//*[contains(text(),'" + productData.getName() + "')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(createdProductCard));
+        createdProductCard.click();
     }
 }

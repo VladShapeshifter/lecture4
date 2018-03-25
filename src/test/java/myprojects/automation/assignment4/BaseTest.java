@@ -1,14 +1,14 @@
 package myprojects.automation.assignment4;
 
 import myprojects.automation.assignment4.utils.logging.EventHandler;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
+import org.testng.Reporter;
+import org.testng.annotations.*;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -69,7 +69,7 @@ public abstract class BaseTest {
      * creates {@link ChromeDriver} instance by default.
      *
      */
-    @BeforeClass
+    @BeforeTest
     // TODO use parameters from pom.xml to pass required browser type
     @Parameters("browser")
     public void setUp(String browser ) {
@@ -78,18 +78,22 @@ public abstract class BaseTest {
 
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        /* activate in case you want to check the "Save product" button display in different dimensions*/
+//        driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().window().maximize();
 
         actions = new GeneralActions(driver);
+        Reporter.setEscapeHtml(false);
     }
 
     /**
      * Closes driver instance after test class execution.
      */
-    @AfterClass
+    @AfterTest
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+
 }

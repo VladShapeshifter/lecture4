@@ -26,6 +26,17 @@
                 <version>2.20.1</version>
                 <configuration>
                     <!--ReportNG reporting framework may be connected here-->
+                    <properties>
+                        <property>
+                            <name>usedefaultlisteners</name>
+                            <value>false</value>
+                        </property>
+                        <property>
+                            <name>listener</name>
+                            <value>org.uncommons.reportng.HTMLReporter, org.uncommons.reportng.JUnitXMLReporter</value>
+                        </property>
+                    </properties>
+                    <workingDirectory>target/</workingDirectory>
                     <suiteXmlFiles>
                         <suiteXmlFile>${project.build.testOutputDirectory}/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
@@ -38,7 +49,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.9.1</version>
+            <version>3.11.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
